@@ -1,5 +1,8 @@
+[![Build Status](https://travis-ci.org/anasteyshakoshman/lab07.svg?branch=master)](https://travis-ci.org/anasteyshakoshman/lab07)
+
+
 ## Laboratory work VII
-[![Build Status](https://travis-ci.org/danya-fr0st/lab07.svg?branch=master)](https://travis-ci.org/danya-fr0st/lab07)
+
 Данная лабораторная работа посвещена изучению систем документирования исходного кода на примере **Doxygen**
 
 ```ShellSession
@@ -14,74 +17,77 @@ $ open https://www.stack.nl/~dimitri/doxygen/manual/index.html
 - [X] 4. Составить отчет и отправить ссылку личным сообщением в **Slack**
 
 ## Tutorial
-Задаем значения переменным, выбираем редактор
+Задание переменной окружения
 ```ShellSession
-$ export GITHUB_USERNAME=danya-fr0st # Присваиваем переменной GITHUB_USERNAME значение danya-fr0st
-$ alias edit=nano # Выбираем редактор nano
+$ export GITHUB_USERNAME=anasteyshakoshman
+$ alias edit=vi
 ```
-Копируем данные, связываемся с репозиторием на сервере
+
+
 ```ShellSession
-$ git clone https://github.com/${GITHUB_USERNAME}/lab06 lab07 # Клонируем lab06 в lab07
-$ cd lab07 # Переходим в lab07
-$ git remote remove origin 
-$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07 #Соединяемя с репозиторие на сервере
+$ git clone https://github.com/${GITHUB_USERNAME}/lab06 lab07
+$ cd lab07
+$ git remote remove origin
+$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab07
 ```
-Создаем новую папку для doxygen
+Создание документации
 ```ShellSession
-$ mkdir docs # Создаем папку docs
-$ doxygen -g docs/doxygen.conf # Добавляем в папку doxygen.conf
-$ cat docs/doxygen.conf # Проверяем doxygen.conf
+$ mkdir docs
+$ doxygen -g docs/doxygen.conf
+$ cat docs/doxygen.conf
 ```
-Изменяем doxygen.conf
+
 ```ShellSession
-$ sed -i '' 's/\(PROJECT_NAME.*=\).*$/\1 print/g' docs/doxygen.conf # Даем имя проекту: print (PROJECT_NAME = print)
-$ sed -i '' 's/\(EXAMPLE_PATH.*=\).*$/\1 examples/g' docs/doxygen.conf # Прописываем путь до example (EXAMPLE_PATH = examples)
-$ sed -i '' 's/\(INCLUDE_PATH.*=\).*$/\1 examples/g' docs/doxygen.conf # Прописываем путь до include (INCLUDE_PATH = examples)
-$ sed -i '' 's/\(INPUT *=\).*$/\1 README.md include/g' docs/doxygen.conf # Включаем README.md (INPUT = README.md include)
-$ sed -i '' 's/\(USE_MDFILE_AS_MAINPAGE.*=\).*$/\1 README.md/g' docs/doxygen.conf # Назначаем README.md главной страницей (USE_MDFILE_AS_MAINPAGE = README.md)
-$ sed -i '' 's/\(OUTPUT_DIRECTORY.*=\).*$/\1 docs/g' docs/doxygen.conf # Прописываем путь docs (OUTPUT_DIRECTORY = docs)
+$ sed -i  's/\(PROJECT_NAME.*=\).*$/\1 print/g' docs/doxygen.conf #устанавливает название проекта print
+$ sed -i  's/\(EXAMPLE_PATH.*=\).*$/\1 examples/g' docs/doxygen.conf #устанавливает путь к examples
+#устанавливает путь к examples, где есть include
+$ sed -i  's/\(INCLUDE_PATH.*=\).*$/\1 examples/g' docs/doxygen.conf 
+$ sed -i  's/\(INPUT *=\).*$/\1 README.md include/g' docs/doxygen.conf #устанавливает INPUT равным print
+# Указание файла README.md как основого
+$ sed -i  's/\(USE_MDFILE_AS_MAINPAGE.*=\).*$/\1 README.md/g' docs/doxygen.conf  
+$ sed -i  's/\(OUTPUT_DIRECTORY.*=\).*$/\1 docs/g' docs/doxygen.conf #  Указание пути к каталогу doc
 ```
-Заменяем одни значения другими  в README.md
+
 ```ShellSession
-$ sed -i '' 's/lab06/lab07/g' README.md # Замена "lab06" на "lab07"
+$ sed -i '' 's/lab07/lab07/g' README.md
 ```
-Редактирование print.hpp
+
 ```ShellSession
 # документируем функции print 
 $ edit include/print.hpp
 ```
-Выкладываем изменения в репозиторий на сервере
+Коммит
 ```ShellSession
-$ git add . # Выбираем все элементы
-$ git commit -m"added doxygen.conf" # Добавляем комментарий
-$ git push origin master # Выкладываем изменения
+$ git add .
+$ git commit -m"added doxygen.conf"
+$ git push origin master
 ```
-Соединяемся с travis
+Подключение к Travis
 ```ShellSession
-$ travis login --auto # Заходим в travis
-$ travis enable # Даем доступ к lab07
+$ travis login --auto
+$ travis enable
 ```
-Работаем с docs, выкладываем изменения на сервер
-```ShellSession
-$ doxygen docs/doxygen.conf # Указываем путь до doxygen.conf
-$ ls | grep "[^docs]" | xargs rm -rf # Фильтруем docs
-$ mv docs/html/* . && rm -rf docs # # Переносим составляющие в html и удаляем docs
-$ git checkout -b gh-pages # Создаем ветку gh-pages, переключаемся на нее
-$ git add . # Выбираем все элементы
-$ git commit -m"added documentation" # Комментируем
-$ git push origin gh-pages # Выкладываем изменения на gh-pages
-$ git checkout master # Возвращаемся на верку master
+Работа с файлами doxygen
 ```
-Работаем со снимками экрана и Google Disk
+$ doxygen docs/doxygen.conf
+$ ls | grep "[^docs]" | xargs rm -rf  # фильтр файла для удаления
+$ mv docs/html/* . && rm -rf docs     # переименовывание и перемещение файла
+$ git checkout -b gh-pages            # создание ветки gh-page
+$ git add .
+$ git commit -m"added documentation"  
+$ git push origin gh-pages            
+$ git checkout master                 # возврат к ветке master
+```
+Создание папки artifacts и добавление туда скриншота. Отправление на майл  rusdevops@gmail.com
 ```ShellSession
-$ mkdir artifacts && cd artifacts # Создаем папку artifacts и переходим в неё
-$ import screenshot.png # Делаем снимок экрана
+$ mkdir artifacts && cd artifacts
+$ screencapture -T 10 screenshot.jpg # или png
 <Command>-T
-$ open https://${GITHUB_USERNAME}.github.io/lab07/print_8hpp_source.html # Открываем страницу с print.hpp
-$ gdrive upload screenshot.png # Загружаем снимок на Google Disk
-$ SCREENSHOT_ID=`gdrive list | grep screenshot | awk '{ print $1; }'` # Задаем ID изображения
-$ gdrive share ${SCREENSHOT_ID} --role reader --type user --email rusdevops@gmail.com # Разрешаем доступ (чтение) rusdevops@gmail.com
-$ echo https://drive.google.com/open?id=${SCREENSHOT_ID} # Открываем изображение
+$ open https://${GITHUB_USERNAME}.github.io/lab07/print_8hpp_source.html    # открываем gh-page
+$ gdrive upload screenshot.jpg # или png
+$ SCREENSHOT_ID=`gdrive list | grep screenshot | awk '{ print $1; }'`
+$ gdrive share ${SCREENSHOT_ID} --role reader --type user --email rusdevops@gmail.com
+$ echo https://drive.google.com/open?id=${SCREENSHOT_ID} #вывод ссылки на скриншот
 ```
 
 ## Report
