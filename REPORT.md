@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/anasteyshakoshman/lab07.svg?branch=master)](https://travis-ci.org/anasteyshakoshman/lab07)
+[![Build Status](https://travis-ci.org/danya-fr0st/lab07.svg?branch=master)](https://travis-ci.org/danya-fr0st/lab07)
 
 
 ## Laboratory work VII
