@@ -20,7 +20,7 @@ $ open https://www.stack.nl/~dimitri/doxygen/manual/index.html
 Задание переменной окружения
 ```ShellSession
 $ export GITHUB_USERNAME=danya-fr0st
-$ alias edit=vi
+$ alias edit=alias
 ```
 
 
